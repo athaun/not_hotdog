@@ -11,13 +11,15 @@ export const __dirname = path.dirname(__filename)
 const app = express();
 // await mongoose.connect('mongodb://localhost:27017/hotdog')
 
+app.use(express.json({limit: '50mb'}));
+app.use(express.urlencoded({limit: '50mb', extended: true, parameterLimit: 50000}));
 
 app.set('view engine', 'ejs')
 app.set('views', path.join(__dirname, '/views'))
 
 app.use(express.static(path.join(__dirname, 'public')))
 
-app.use(express.json())
+//app.use(express.json())
 app.use(express.urlencoded({ extended: true}))
 
 app.use("/pages", pages)
@@ -34,7 +36,7 @@ app.all("*", (req, res) => {
     res.render("error", { error: `<h1>404</h1><br><p>The page you are looking for doesn't exist.</p>` })
 })
 
-app.listen(8090, () => {
+app.listen(80, () => {
     console.log("Listening")
 })
 
