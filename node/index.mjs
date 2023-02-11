@@ -9,8 +9,8 @@ const __filename = fileURLToPath(import.meta.url)
 export const __dirname = path.dirname(__filename)
 
 const app = express();
+// await mongoose.connect('mongodb://localhost:27017/hotdog')
 
-await mongoose.connect('mongodb://localhost:27017/hotdog')
 
 app.set('view engine', 'ejs')
 app.set('views', path.join(__dirname, '/views'))
