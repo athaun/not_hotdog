@@ -1,0 +1,25 @@
+<%- include('partials/head')%>
+
+<link href="https://cdn.reflowhq.com/v1/toolkit.min.css" rel="stylesheet" />
+
+<%- include('partials/navbar')%>
+
+
+<div class="page-background">
+    <div class="container page" id="page">
+        <%- include('partials/storenav') %>
+        <div id="product-list-comp" data-reflow-type="product-list" data-reflow-perpage="8"
+             data-reflow-order="price_desc" data-reflow-layout="cards"
+             data-reflow-product-link="/store/product/{id}">
+        </div>       
+
+        <script>
+            // Getting the category id from the URL and setting data-reflow-category attribute dynamically.
+            document.querySelector("#product-list-comp").dataset.reflowCategory = new URL(location.href).searchParams.get("category");
+        </script>
+    </div>
+</div>
+
+<script src="https://cdn.reflowhq.com/v1/toolkit.min.js" data-reflow-store="1316370211" defer></script>
+
+<%- include('partials/footer')%>

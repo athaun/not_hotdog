@@ -1,0 +1,38 @@
+/* @import url('https://fonts.googleapis.com/css2?family=Karla:wght@300;400;500;700;800&family=Libre+Caslon+Text&display=swap'); */
+
+/* General styles */
+body {
+    font-family: /*'Libre Caslon Text',*/ serif;
+}
+
+.container {
+    text-align: center;
+    max-width: 1080px;
+    width: 90%;
+    margin: 5% auto;
+    text-align: center;
+    align-items: center;
+}
+
+#upload-btn {
+    display: block;
+    width: 200px;
+    height: 90px;
+    margin: 0 auto;
+}
+
+#upload-btn span {
+    display: block;
+    background: red;
+    background: url("/images/hotdog-btn.png") no-repeat;
+    background-size: 100%;
+    background-position: center;
+    width: 200px;
+    height: 90px;
+}
+
+#upload-btn span h3 {
+    padding-top: 40px;
+    color: white;
+    text-decoration: none;
+}

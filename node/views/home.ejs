@@ -1,0 +1,67 @@
+<%- include('partials/head')%>
+
+<%- include('partials/navbar')%>
+
+<div id="home-page-background">
+    <div class="container">
+        <div class="container">
+            <h1>Hotdog?</h1>
+            <br>
+            <a href="#" id="upload-btn" >
+                <span>
+                    <h3>Upload</h3>
+                </span>
+
+            </a>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(function() {
+        function upload(file) {
+            var fr = new FileReader();
+
+            fr.onload = function(event) {
+                var src = event.target.result;
+                var img = new Image();
+
+                img.onload = function() {
+                    // Post image to server
+                    $.ajax({
+                        url: '/upload',
+                        type: 'POST',
+                        data: {
+                            image: src
+                        },
+                        success: function(data) {
+                            console.log("Data uploaded")
+                        },
+                        error: function(err) {
+                            console.log(err)
+                        }
+                    });
+                };
+                img.src = src;
+            };
+
+            fr.readAsDataURL(file);
+        }
+
+        $('#upload-btn').click(function() {
+            var fileInput = $("<input>", {
+                type: "file",
+                accept: "image/*"
+            });
+            fileInput.trigger('click');
+
+            fileInput.on('change', function(ev) {
+                upload(ev.target.files[0]);
+            });
+
+            return false;
+        });
+    });
+</script>
+
+<%- include('partials/footer')%>
