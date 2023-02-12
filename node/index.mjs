@@ -3,53 +3,75 @@ import path from 'path'
 import { fileURLToPath } from 'url'
 import fs from 'fs'
 import Jimp from 'jimp'
-
-import pages from './modules/pages.mjs'
+import sharp from 'sharp'
+import { v4 as uuidv4 } from 'uuid';
 
 const __filename = fileURLToPath(import.meta.url)
 export const __dirname = path.dirname(__filename)
 
 const app = express();
-// await mongoose.connect('mongodb://localhost:27017/hotdog')
 
-app.use(express.json({limit: '100mb'}));
-app.use(express.urlencoded({limit: '50mb', extended: true, parameterLimit: 50000}));
+app.use(express.json({ limit: '100mb' }));
+app.use(express.urlencoded({ limit: '50mb', extended: true, parameterLimit: 50000 }));
 
 app.set('view engine', 'ejs')
 app.set('views', path.join(__dirname, '/views'))
 
 app.use(express.static(path.join(__dirname, 'public')))
 
-app.use(express.urlencoded({ extended: true}))
+app.use(express.urlencoded({ extended: true }))
 
-app.use("/pages", pages)
+app.post("/upload", (req, res) => {
+    console.log(req.body.image.slice(0, 30) + "...")
 
-app.post("/upload", (req, res) => { 
-    console.log(req.body.image.slice(0, 20))
+    let webp = false;
+    let id = uuidv4()
+    let fn = path.join(__dirname, `../uploaded_images/img_${id}.png`)
 
-    let mime;
+    // Remove the data:image/*/;base64, from the beginning of the string
     if (req.body.image.includes("data:image/jpeg")) {
         req.body.image = req.body.image.replace(/^data:image\/jpeg+;base64,/, "");
-        req.body.image = req.body.image.replace(/ /g, '+');
-        mime = "jpeg"
     } else if (req.body.image.includes("data:image/png")) {
         req.body.image = req.body.image.replace(/^data:image\/png+;base64,/, "");
+    } else if (req.body.image.includes("data:image/webp")) {
+        webp = true;
+        req.body.image = req.body.image.replace(/^data:image\/webp+;base64,/, "");
+        
+        // Replace all spaces with + signs
         req.body.image = req.body.image.replace(/ /g, '+');
-        mime = "png"
-    } else {
-        res.send("Invalid image")
-        return;
+
+        // Save the wepb image to a buffer
+        const buffer = Buffer.from(req.body.image, 'base64');
+
+        // Convert the wepb buffer to a png
+        sharp(buffer)
+        .png()
+        .toBuffer()
+        .then(function (outputBuffer) {
+            // Save the png buffer to a file
+            fs.writeFileSync(fn, outputBuffer);
+            console.log("webp conversion completed");
+        })
+        .catch(function (err) {
+            console.log("An error occurred converting wepb: ", err);
+            res.send("An error occurred converting wepb: ", err);
+            return;
+        });
     }
 
-    // Convert base64 to buffer => <Buffer ff d8 ff db 00 43 00 ...
-    const buffer = Buffer.from(req.body.image, "base64")
+    if (!webp) {
+        // Replace all spaces with + signs
+        req.body.image = req.body.image.replace(/ /g, '+');
 
-    Jimp.read(buffer, (err, res) => {
-        if (err) throw new Error(err);
-        res.quality(5).write(path.join(__dirname, '../uploaded_images/out.png'));
-    });
+        const buffer = Buffer.from(req.body.image, "base64")
 
+        Jimp.read(buffer, (err, res) => {
+            if (err) throw new Error(err);
+            res.quality(5).write(fn);
+        });
+    }
 
+    res.send("Image uploaded successfully")
 })
 
 app.get('/', (req, res) => {
