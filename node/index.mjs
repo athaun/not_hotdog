@@ -5,6 +5,7 @@ import fs from 'fs'
 import Jimp from 'jimp'
 import sharp from 'sharp'
 import { v4 as uuidv4 } from 'uuid';
+import { execSync } from 'child_process'
 
 const __filename = fileURLToPath(import.meta.url)
 export const __dirname = path.dirname(__filename)
@@ -71,7 +72,15 @@ app.post("/upload", (req, res) => {
         });
     }
 
-    res.send("Image uploaded successfully")
+    // Consult the AI
+    const output = execSync('python3 ../dummy_ai.py', { encoding: 'utf-8' });
+    console.log('Output was:', output.trim());
+
+    if (output.trim() == "hotdog") {
+        res.send("hotdog")
+    } else {
+        res.send("not hotdog")
+    }
 })
 
 app.get('/', (req, res) => {

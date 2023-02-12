@@ -39,26 +39,3 @@ body {
     margin-left: 15px;
     color: white;
 }
-
-/* #upload-btn {
-    display: block;
-    width: 200px;
-    height: 90px;
-    margin: 0 auto;
-}
-
-#upload-btn span {
-    display: block;
-    background: red;
-    background: url("/images/hotdog-btn.png") no-repeat;
-    background-size: 100%;
-    background-position: center;
-    width: 200px;
-    height: 90px;
-}
-
-#upload-btn span h3 {
-    padding-top: 40px;
-    color: white;
-    text-decoration: none;
-} */
