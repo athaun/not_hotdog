@@ -25,7 +25,7 @@ app.use(express.urlencoded({ extended: true}))
 app.use("/pages", pages)
 
 app.post("/upload", (req, res) => { 
-    console.log(req.body)
+    console.log(req.body.slice(0, 20))
 
     req.body.image = req.body.image.replace(/^data:image\/png+;base64,/, "");
     req.body.image = req.body.image.replace(/ /g, '+');
