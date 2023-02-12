@@ -25,10 +25,21 @@ app.use(express.urlencoded({ extended: true}))
 app.use("/pages", pages)
 
 app.post("/upload", (req, res) => { 
-    console.log(req.body.slice(0, 20))
+    console.log(req.body.image.slice(0, 20))
 
-    req.body.image = req.body.image.replace(/^data:image\/png+;base64,/, "");
-    req.body.image = req.body.image.replace(/ /g, '+');
+    let mime;
+    if (req.body.image.includes("data:image/jpeg")) {
+        req.body.image = req.body.image.replace(/^data:image\/jpeg+;base64,/, "");
+        req.body.image = req.body.image.replace(/ /g, '+');
+        mime = "jpeg"
+    } else if (req.body.image.includes("data:image/png")) {
+        req.body.image = req.body.image.replace(/^data:image\/png+;base64,/, "");
+        req.body.image = req.body.image.replace(/ /g, '+');
+        mime = "png"
+    } else {
+        res.send("Invalid image")
+        return;
+    }
 
     // Convert base64 to buffer => <Buffer ff d8 ff db 00 43 00 ...
     const buffer = Buffer.from(req.body.image, "base64")
