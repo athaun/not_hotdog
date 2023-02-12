@@ -11,7 +11,13 @@
                         Sophisticated HotDog Detection.
                         <br>
                     </h2>
-                        <h1><a href="#" id="upload-btn" class="btn btn-primary">Detect</a>
+                    
+                    <h1>
+                        
+                        <a href="#" id="upload-btn" class="btn btn-primary">
+                            <span class="spinner-border spinner-border-sm hidden" id="spinner" role="status" aria-hidden="true"></span>
+
+                            Detect</a>
                     </h1>
 
                 </div>
@@ -22,6 +28,8 @@
             $(function () {
                 function upload(file) {
                     var fr = new FileReader();
+
+                    $("#spinner").removeClass("hidden");
 
                     fr.onload = function (event) {
                         var src = event.target.result;
@@ -37,9 +45,11 @@
                                 },
                                 success: function (data) {
                                     alert(data);
+                                    $("#spinner").addClass("hidden");
                                 },
                                 error: function (err) {
                                     alert(error);
+                                    $("#spinner").addClass("hidden");
                                 }
                             });
                         };
