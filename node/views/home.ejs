@@ -1,72 +1,68 @@
 <%- include('partials/head')%>
 
-<%- include('partials/navbar')%>
+    <%- include('partials/navbar')%>
 
-<div id="home-page-background">
-    <div class="container">
-        <div class="man"><img src="/images/man-hotdog.jpg"></div>
-        <div class="intro-info"></div>
+        <div id="home-page-background">
+            <!-- <img src="/images/logo.jpg" id="logo" width="300vh alt=""> -->
+            <div class="container">
+                <div class="man"><img src="/images/man-hotdog.jpg"></div>
+                <div class="intro-info">
+                    <h2>
+                        Sophisticated HotDog Detection.
+                        <br>
+                    </h2>
+                        <h1><a href="#" id="upload-btn" class="btn btn-primary">Detect</a>
+                    </h1>
+
+                </div>
+            </div>
         </div>
 
-       <div class="container">
-            <h1>Hotdog?</h1>
-            <br>
-            <a href="#" id="upload-btn" >
-                <span>
-                    <h3>Upload</h3>
-                </span>
+        <script>
+            $(function () {
+                function upload(file) {
+                    var fr = new FileReader();
 
-            </a>
-            </div>
-       
-    
-</div>
+                    fr.onload = function (event) {
+                        var src = event.target.result;
+                        var img = new Image();
 
-<script>
-    $(function() {
-        function upload(file) {
-            var fr = new FileReader();
+                        img.onload = function () {
+                            // Post image to server
+                            $.ajax({
+                                url: '/upload',
+                                type: 'POST',
+                                data: {
+                                    image: src
+                                },
+                                success: function (data) {
+                                    console.log("Data uploaded")
+                                },
+                                error: function (err) {
+                                    console.log(err)
+                                }
+                            });
+                        };
+                        img.src = src;
+                    };
 
-            fr.onload = function(event) {
-                var src = event.target.result;
-                var img = new Image();
+                    fr.readAsDataURL(file);
+                }
 
-                img.onload = function() {
-                    // Post image to server
-                    $.ajax({
-                        url: '/upload',
-                        type: 'POST',
-                        data: {
-                            image: src
-                        },
-                        success: function(data) {
-                            console.log("Data uploaded")
-                        },
-                        error: function(err) {
-                            console.log(err)
-                        }
+                $('#upload-btn').click(function () {
+                    var fileInput = $("<input>", {
+                        type: "file",
+                        accept: "image/*"
                     });
-                };
-                img.src = src;
-            };
+                    fileInput.trigger('click');
 
-            fr.readAsDataURL(file);
-        }
+                    fileInput.on('change', function (ev) {
+                        upload(ev.target.files[0]);
+                    });
 
-        $('#upload-btn').click(function() {
-            var fileInput = $("<input>", {
-                type: "file",
-                accept: "image/*"
+                    return false;
+                });
             });
-            fileInput.trigger('click');
+        </script>
 
-            fileInput.on('change', function(ev) {
-                upload(ev.target.files[0]);
-            });
-
-            return false;
-        });
-    });
-</script>
-
-<%- include('partials/footer')%>
+        <%- include('partials/footer')%>
