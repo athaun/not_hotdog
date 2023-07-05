@@ -43,3 +43,159 @@ body {
 .hidden {
     display: none;
 }
+
+.container {
+    display: flex;
+    max-width: 95%;
+    width: 100%;
+    height: 450px;
+    margin: 2% auto 0;
+    padding: 20px;
+    gap: 3%;
+    text-align: center;
+    align-items: center;
+}
+
+.man {
+    width: 60%;
+    height: 100%;
+}
+
+.man img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    border-radius: 15px;
+}
+
+
+.intro-info {
+    width: 45%;
+    height: 100%;
+    padding: 125px;
+    position: relative;
+    border-radius: 15px;
+    color: #d2d2d6;
+    background-color: rgb(25 25 25);
+}
+
+#learn-more-btn{
+    display: block;
+    width: 200px;
+    /* height: 90px; */
+    margin: 0 auto;
+    color: #d2d2d6;
+    background-color: rgb(25 25 25);
+}
+
+.container-2 {
+    width: 90%;
+    height: 300px;
+    margin: 0 auto 2%;
+    padding: 60px;
+    text-align: center;
+    align-items: center;
+    border-radius: 15px;
+    background-color: rgb(25 25 25);
+    color: #d2d2d6;
+}
+
+
+
+#upload-btn {
+    display: block;
+    width: 200px;
+    height: 90px;
+    margin: 0 auto;
+}
+
+#upload-btn span {
+    display: block;
+    background: url("/images/hotdog-btn.png") no-repeat;
+    background-size: 100%;
+    background-position: center;
+    width: 200px;
+    height: 90px;
+}
+
+#upload-btn span h3 {
+    padding-top: 40px;
+    color: white;
+    text-decoration: none;
+}
+
+.results {
+    width: 90%;
+    height: 850px;
+    margin: 2% auto;
+    text-align: center;
+    align-items: center;
+    border-radius: 15px;
+    position: relative;
+}
+
+.results-info {
+    width: 100%;
+    height: 150px;
+    padding: 50px;
+    text-align: center;
+    align-items: center;
+    border-radius: 15px;
+    background-color:  rgb(25 25 25);
+    color: white;
+    z-index: 2;
+     position: absolute;
+}
+
+.results img{
+    max-width: 99.65%;
+    height: 97%;
+    object-fit: cover;
+    align-items: center;
+    border-radius: 15px;
+  
+}
+
+@media screen and (max-width: 1025px)
+{
+    .intro-info{
+        padding: 3rem;
+        padding-top: 8rem;
+    }
+}
+
+@media screen and (max-width:730px){
+    .container {
+        flex-direction: column;
+    }
+    .man{
+        width: 100%;
+    }
+    .intro-info{
+        width:100%;
+        margin: 2%;
+        padding: 55px;
+        padding-top: 70px;
+        align-items: center;
+        }
+    .container-2a{
+        display: block;
+        height: 100%;
+        margin: 48% auto 0;
+    }
+    .container-2b{
+        display: block;
+        margin: 5% auto;
+    }
+}
+
+@media screen and (max-width: 600px){
+    .container-2a{
+        margin: 45% auto 0;
+    }
+}
+@media screen and (max-width: 520px){
+    .container-2a{
+        margin: 42% auto 0;
+    }
+}
